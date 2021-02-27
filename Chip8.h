@@ -2,6 +2,8 @@
 //  Created at: 17.02.21
 
 #include <cstdint>
+#include <fstream>
+#include <stdexcept>
 
 class Chip8
 {
@@ -29,8 +31,8 @@ private:
 	uint16_t    opcode;
 
 public:
-    Chip8(char const* filePath);
+    Chip8(const char* file_path);
     ~Chip8();
 
-    void LoadROM(char const* filePath);
+    void LoadROM(const char* file_path);
 };
