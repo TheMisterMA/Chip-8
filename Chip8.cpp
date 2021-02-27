@@ -16,6 +16,13 @@ Chip8::~Chip8()
 {
 }
 
+/**
+ *  LoadROM:
+ *      This function loades the binary value of the content in the file,
+ *      to the emulated memory buffer.
+ *
+ * @param file_path The file containing the program this program will emulate.
+ */
 void Chip8::LoadROM(const char* file_path)
 {
     //  Opening the file as a binary stream and set the file pointer at the end.

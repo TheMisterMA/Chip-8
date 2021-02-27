@@ -34,5 +34,6 @@ public:
     Chip8(const char* file_path);
     ~Chip8();
 
+    //  Loads the binary values in the file to the Memory attribute.
     void LoadROM(const char* file_path);
 };

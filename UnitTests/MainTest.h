@@ -4,4 +4,5 @@
 const char* MEMORY_OVERFLOW_FILE    = "UnitTests/MemoryOverflowCode";
 const char* NORMAL_MEMORY_FILE      = "UnitTests/NormalSizeCode";
 
-bool ConstructChip8(const char* file_path);
+//  This function tests the Overflow error handling when constructing a `Chip8` object
+bool OverflowMemChip8Test(const char* file_path);
