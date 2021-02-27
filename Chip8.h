@@ -31,4 +31,6 @@ private:
 public:
     Chip8(char const* filePath);
     ~Chip8();
+
+    void LoadROM(char const* filePath);
 };
