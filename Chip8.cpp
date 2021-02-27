@@ -2,9 +2,8 @@
 //  Created at: 17.02.21
 
 #include "Chip8.h"
-#include <fstream>
 
-Chip8::Chip8(char const* file_path)
+Chip8::Chip8(const char* file_path)
 {
     //  Initializing `Program Counter` to the starting adresss.
     this->pc = this->START_ADDRESS;
@@ -17,7 +16,7 @@ Chip8::~Chip8()
 {
 }
 
-void Chip8::LoadROM(char const* file_path)
+void Chip8::LoadROM(const char* file_path)
 {
     //  Opening the file as a binary stream and set the file pointer at the end.
     std::ifstream code_file(file_path, std::ios::binary | std::ios::ate);
@@ -29,10 +28,10 @@ void Chip8::LoadROM(char const* file_path)
         char* buffer = new char[file_size];
 
         //  Check if the memory size allocated for commands has enogh space for all the commands.
-        if(file_size < (this->RAM_SIZE_IN_BYTES - this->START_ADDRESS))
+        if(file_size > (this->RAM_SIZE_IN_BYTES - this->START_ADDRESS))
         {
             printf("Aborting, `ROM` file is bigger than allocated memory buffer.\n");
-            abort();
+            throw std::overflow_error("ROM is bigger than allocated memory buffer.");
         }
 
         //  Set the read position at the start of the file, fill the buffer and closing the file.

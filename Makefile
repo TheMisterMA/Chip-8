@@ -1,5 +1,9 @@
-UNIT_TEST=tests/MainTest.cpp
+MODULE_UNDER_TEST=Chip8.cpp
+UNIT_TEST=UnitTests/MainTest.cpp
 SOURCES_PATH=-isystem ./
 
 cmp:
-	g++ ${UNIT_TEST} ${SOURCES_PATH}
+	g++ ${MODULE_UNDER_TEST} ${UNIT_TEST} ${SOURCES_PATH}
+
+run: cmp
+	./a.out
