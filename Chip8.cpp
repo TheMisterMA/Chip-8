@@ -4,10 +4,13 @@
 #include "Chip8.h"
 #include <fstream>
 
-Chip8::Chip8(char const* filePath)
+Chip8::Chip8(char const* file_path)
 {
     //  Initializing `Program Counter` to the starting adresss.
     this->pc = this->START_ADDRESS;
+
+    //  Loading the program into the emulated ROM
+    this->LoadROM(file_path);
 }
 
 Chip8::~Chip8()

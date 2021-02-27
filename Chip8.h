@@ -29,8 +29,8 @@ private:
 	uint16_t    opcode;
 
 public:
-    Chip8(char const* filePath);
+    Chip8(char const* file_path);
     ~Chip8();
 
-    void LoadROM(char const* filePath);
+    void LoadROM(char const* file_path);
 };
