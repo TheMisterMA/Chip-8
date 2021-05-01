@@ -31,6 +31,61 @@ Chip8::Chip8(const char *file_path) : //  Initializing randomness seed.
     {
         this->memory[i] = Chip8Constants::fontset[i - Chip8Constants::FONTSET_START_ADDRESS];
     }
+
+    //  Set up function pointer table
+    //  All the operations in which the first byte equals to 0, which there are 2 of.
+    this->table[0x0] = &Chip8::Table0;
+    this->table[0x1] = &Chip8::OP_1nnn;
+    this->table[0x2] = &Chip8::OP_2nnn;
+    this->table[0x3] = &Chip8::OP_3xkk;
+    this->table[0x4] = &Chip8::OP_4xkk;
+    this->table[0x5] = &Chip8::OP_5xy0;
+    this->table[0x6] = &Chip8::OP_6xkk;
+    this->table[0x7] = &Chip8::OP_7xkk;
+
+    //  All the operations in which the first byte equals to 8, which there are 9 of..
+    this->table[0x8] = &Chip8::Table8;
+    this->table[0x9] = &Chip8::OP_9xy0;
+    this->table[0xA] = &Chip8::OP_Annn;
+    this->table[0xB] = &Chip8::OP_Bnnn;
+    this->table[0xC] = &Chip8::OP_Cxkk;
+    this->table[0xD] = &Chip8::OP_Dxyn;
+
+    //  All the operations in which the first byte equals to E, which there are 2 of.
+    this->table[0xE] = &Chip8::TableE;
+
+    //  All the operations in which the first byte equals to F, which there are 9 of.
+    this->table[0xF] = &Chip8::TableF;
+
+    //  Operations starting with 0.
+    this->table0[0x0] = &Chip8::OP_00E0;
+    this->table0[0xE] = &Chip8::OP_00EE;
+
+    //  Operations starting with 8.
+    this->table8[0x0] = &Chip8::OP_8xy0;
+    this->table8[0x1] = &Chip8::OP_8xy1;
+    this->table8[0x2] = &Chip8::OP_8xy2;
+    this->table8[0x3] = &Chip8::OP_8xy3;
+    this->table8[0x4] = &Chip8::OP_8xy4;
+    this->table8[0x5] = &Chip8::OP_8xy5;
+    this->table8[0x6] = &Chip8::OP_8xy6;
+    this->table8[0x7] = &Chip8::OP_8xy7;
+    this->table8[0xE] = &Chip8::OP_8xyE;
+
+    //  Operations starting with E.
+    this->tableE[0x1] = &Chip8::OP_ExA1;
+    this->tableE[0xE] = &Chip8::OP_Ex9E;
+
+    //  OPerations starting with F.
+    this->tableF[0x07] = &Chip8::OP_Fx07;
+    this->tableF[0x0A] = &Chip8::OP_Fx0A;
+    this->tableF[0x15] = &Chip8::OP_Fx15;
+    this->tableF[0x18] = &Chip8::OP_Fx18;
+    this->tableF[0x1E] = &Chip8::OP_Fx1E;
+    this->tableF[0x29] = &Chip8::OP_Fx29;
+    this->tableF[0x33] = &Chip8::OP_Fx33;
+    this->tableF[0x55] = &Chip8::OP_Fx55;
+    this->tableF[0x65] = &Chip8::OP_Fx65;
 }
 
 Chip8::~Chip8()
@@ -77,6 +132,17 @@ void Chip8::LoadROM(const char *file_path)
         delete[] buffer;
     }
 }
+
+//  Operation tables.
+void Chip8::Table0() { (this->*table0[this->opcode & 0x000Fu])(); }
+
+void Chip8::Table8() { (this->*table0[this->opcode & 0x000Fu])(); }
+
+void Chip8::TableE() { (this->*table0[this->opcode & 0x000Fu])(); }
+
+void Chip8::TableF() { (this->*table0[this->opcode & 0x00FFu])(); }
+
+void Chip8::OP_NULL() {}
 
 /***
  *  OP_00E0:
