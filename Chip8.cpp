@@ -133,6 +133,23 @@ void Chip8::LoadROM(const char *file_path)
     }
 }
 
+void Chip8::Cycle()
+{
+    //  because the memory is a uint8 and the opcode is uint16,
+    //  each opcode is 8 bit shift of the argument in PC, ORed with the memory in PC + 1.
+    this->opcode = (this->memory[pc] << 8u) | this->memory[pc + 1];
+
+    //  Increament of the Program counter.
+    this->pc += 2;
+
+    //  Decode opcode and Execute.
+    (this->*table0[(this->opcode & 0x0F00u) >> 12u])();
+
+    //  Decreament of delay timer and sound timer if each were set.
+    this->delayTimer -= ((this->delayTimer > 0) ? 1 : 0);
+    this->soundTimer -= ((this->soundTimer > 0) ? 1 : 0);
+}
+
 //  Operation tables.
 void Chip8::Table0() { (this->*table0[this->opcode & 0x000Fu])(); }
 
