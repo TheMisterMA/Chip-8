@@ -78,6 +78,9 @@ public:
     //  Loads the binary values in the file to the Memory attribute.
     void LoadROM(const char *file_path);
 
+    //  Fetches, Decodes and Excutes code on cycles, the simulation cycle.
+    void Cycle();
+
     //  Operation tables.
     void Table0();
     void Table8();
