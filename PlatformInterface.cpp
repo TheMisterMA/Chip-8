@@ -6,15 +6,15 @@
  ***/
 PlatformInterface::PlatformInterface(const char *title,
                    size_t windowWidth,
-                   size_t windowHight,
+                   size_t windowHeight,
                    size_t textureWidth,
-                   size_t textureHight)
+                   size_t textureHeight)
 {
     //  Initiates SDL.
     SDL_Init(SDL_INIT_VIDEO);
 
     //  Creates a window out of the window sizes.
-    this->window = SDL_CreateWindow(this->title,
+    this->window = SDL_CreateWindow(title,
                                     0,
                                     0,
                                     windowWidth,
@@ -31,7 +31,7 @@ PlatformInterface::PlatformInterface(const char *title,
                                       SDL_PIXELFORMAT_RGBA8888,
                                       SDL_TEXTUREACCESS_STREAMING,
                                       textureWidth,
-                                      textureHight);
+                                      textureHeight);
 }
 
 /***

@@ -1,4 +1,4 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <iostream>
 
 class PlatformInterface
@@ -21,4 +21,4 @@ public:
                 int pitch);
 
     bool ProcessInput(uint8_t *keys);
-}
+};

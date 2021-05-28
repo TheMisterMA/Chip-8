@@ -27,7 +27,7 @@ Chip8::Chip8(const char *file_path) : //  Initializing randomness seed.
     this->LoadROM(file_path);
 
     //  Load fonts into memory.
-    for (size_t i = Chip8Constants::FONTSET_START_ADDRESS; i < (Chip8Constants::FONT_HIGHT * Chip8Constants::AMOUNT_OF_CHARS); i++)
+    for (size_t i = Chip8Constants::FONTSET_START_ADDRESS; i < (Chip8Constants::FONT_HEIGHT * Chip8Constants::AMOUNT_OF_CHARS); i++)
     {
         this->memory[i] = Chip8Constants::fontset[i - Chip8Constants::FONTSET_START_ADDRESS];
     }
@@ -143,7 +143,7 @@ void Chip8::Cycle()
     this->pc += 2;
 
     //  Decode opcode and Execute.
-    (this->*table0[(this->opcode & 0x0F00u) >> 12u])();
+    (this->*table[(this->opcode & 0xF000u) >> 12u])();
 
     //  Decreament of delay timer and sound timer if each were set.
     this->delayTimer -= ((this->delayTimer > 0) ? 1 : 0);
@@ -153,11 +153,11 @@ void Chip8::Cycle()
 //  Operation tables.
 void Chip8::Table0() { (this->*table0[this->opcode & 0x000Fu])(); }
 
-void Chip8::Table8() { (this->*table0[this->opcode & 0x000Fu])(); }
+void Chip8::Table8() { (this->*table8[this->opcode & 0x000Fu])(); }
 
-void Chip8::TableE() { (this->*table0[this->opcode & 0x000Fu])(); }
+void Chip8::TableE() { (this->*tableE[this->opcode & 0x000Fu])(); }
 
-void Chip8::TableF() { (this->*table0[this->opcode & 0x00FFu])(); }
+void Chip8::TableF() { (this->*tableF[this->opcode & 0x00FFu])(); }
 
 void Chip8::OP_NULL() {}
 
@@ -482,12 +482,13 @@ void Chip8::OP_Fx55()
 }
 
 /***
- *  LD  [I], Vx.
+ *  OP_Fx65:
+ *      LD  [I], Vx.
  *      Sets all the registers up to Vx,
  *      as the values of in the memory from index plus Vx.
  *      where X is the register value of the second word.
  ***/
-void Chip8::OP_Fx55()
+void Chip8::OP_Fx65()
 {
     //  Calculating values out of the opcode.
     uint8_t Vx = ((this->opcode & 0x0F00u) >> 8u);
@@ -724,7 +725,7 @@ void Chip8::OP_Dxyn()
 
     //  Wrap the position inside the video buffer if it going beyond screen boundaries.
     uint8_t xPos = this->registers[Vx] % Chip8Constants::VIDEO_WIDTH;
-    uint8_t yPos = this->registers[Vy] % Chip8Constants::VIDEO_HIGHT;
+    uint8_t yPos = this->registers[Vy] % Chip8Constants::VIDEO_HEIGHT;
 
     //  The VF indicates a collision of the sprite with it self.
     this->registers[0xF] = 0;
