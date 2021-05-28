@@ -13,17 +13,17 @@ namespace Chip8Constants
     constexpr uint16_t RAM_SIZE_IN_BYTES = 4096;
     constexpr uint8_t STACK_LEVELS = 16;
     constexpr uint8_t VIDEO_WIDTH = 64;
-    constexpr uint8_t VIDEO_HIGHT = 32;
+    constexpr uint8_t VIDEO_HEIGHT = 32;
 
     //  The starting address, which the `Program Counter` would be initialize to
     constexpr uint16_t START_ADDRESS = 0x200;
 
-    //  Characters Font hight and the number of each character.
+    //  Characters Font height and the number of each character.
     constexpr uint8_t AMOUNT_OF_CHARS = 16;
-    constexpr uint8_t FONT_HIGHT = 5;
+    constexpr uint8_t FONT_HEIGHT = 5;
     constexpr uint16_t FONTSET_START_ADDRESS = 0x50;
 
-    constexpr uint8_t fontset[AMOUNT_OF_CHARS * FONT_HIGHT] =
+    constexpr uint8_t fontset[AMOUNT_OF_CHARS * FONT_HEIGHT] =
         {
             0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
             0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -55,8 +55,6 @@ private:
     uint8_t sp{};
     uint8_t delayTimer{};
     uint8_t soundTimer{};
-    uint8_t keypad[Chip8Constants::AMOUNT_OF_CHARS]{};
-    uint32_t video[Chip8Constants::VIDEO_WIDTH * Chip8Constants::VIDEO_HIGHT]{};
     uint16_t opcode;
 
     //  Randomness seeds
@@ -72,6 +70,9 @@ private:
 	Chip8Func tableF[0x65 + 1]{&Chip8::OP_NULL};
 
 public:
+    uint8_t keypad[Chip8Constants::AMOUNT_OF_CHARS]{};
+    uint32_t video[Chip8Constants::VIDEO_WIDTH * Chip8Constants::VIDEO_HEIGHT]{};
+
     Chip8(const char *file_path);
     ~Chip8();
 
