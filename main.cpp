@@ -4,24 +4,31 @@
 #include <chrono>
 #include <iostream>
 
+void printVideo(uint32_t *video, size_t sizeOfVideo);
+
 int main(int argc, char *argv[])
 {
-    if (argc != 4)
-    {
-        printf("Usage: %s <Scale> <Delay> <ROM>\n", argv[0]);
-        abort();
-    }
+	if (argc != 4)
+	{
+		printf("Usage: %s <Scale> <Delay> <ROM>\n", argv[0]);
+		abort();
+	}
 
-    int videoScale = std::stoi(argv[1]);
-    int cycleDelay = std::stoi(argv[2]);
-    char const *romFileName = argv[3];
+	int videoScale = std::stoi(argv[1]);
+	int cycleDelay = std::stoi(argv[2]);
+	char const *romFileName = argv[3];
 
-    PlatformInterface platform("Chip8 - Emulator", Chip8Constants::VIDEO_WIDTH * videoScale, Chip8Constants::VIDEO_HEIGHT * videoScale, Chip8Constants::VIDEO_WIDTH, Chip8Constants::VIDEO_HEIGHT);
-    Chip8 chip8(romFileName);
+	PlatformInterface platform("Chip8 - Emulator",
+							   Chip8Constants::VIDEO_WIDTH * videoScale,
+							   Chip8Constants::VIDEO_HEIGHT * videoScale,
+							   Chip8Constants::VIDEO_WIDTH,
+							   Chip8Constants::VIDEO_HEIGHT);
 
-    int videoPitch = sizeof(chip8.video[0]) * Chip8Constants::VIDEO_WIDTH;
+	Chip8 chip8(romFileName);
 
-    auto lastCycleTime = std::chrono::high_resolution_clock::now();
+	int videoPitch = sizeof(chip8.video[0]) * Chip8Constants::VIDEO_WIDTH;
+
+	auto lastCycleTime = std::chrono::high_resolution_clock::now();
 	bool quit = false;
 
 	while (!quit)

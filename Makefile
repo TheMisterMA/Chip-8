@@ -2,7 +2,7 @@ MODULE_UNDER_TEST=Chip8.cpp
 UNIT_TEST=UnitTests/MainTest.cpp
 SOURCES_PATH=-isystem ./
 
-TEST_FILES=UnitTests/BC_test.ch8
+TEST_FILES=UnitTests/test_opcode.ch8
 TEST_CONFIG=  10 1 ${TEST_FILES}
 
 # SDL options

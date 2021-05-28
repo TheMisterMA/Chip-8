@@ -143,7 +143,7 @@ void Chip8::Cycle()
     this->pc += 2;
 
     //  Decode opcode and Execute.
-    (this->*table0[(this->opcode & 0x0F00u) >> 12u])();
+    (this->*table[(this->opcode & 0xF000u) >> 12u])();
 
     //  Decreament of delay timer and sound timer if each were set.
     this->delayTimer -= ((this->delayTimer > 0) ? 1 : 0);
@@ -153,11 +153,11 @@ void Chip8::Cycle()
 //  Operation tables.
 void Chip8::Table0() { (this->*table0[this->opcode & 0x000Fu])(); }
 
-void Chip8::Table8() { (this->*table0[this->opcode & 0x000Fu])(); }
+void Chip8::Table8() { (this->*table8[this->opcode & 0x000Fu])(); }
 
-void Chip8::TableE() { (this->*table0[this->opcode & 0x000Fu])(); }
+void Chip8::TableE() { (this->*tableE[this->opcode & 0x000Fu])(); }
 
-void Chip8::TableF() { (this->*table0[this->opcode & 0x00FFu])(); }
+void Chip8::TableF() { (this->*tableF[this->opcode & 0x00FFu])(); }
 
 void Chip8::OP_NULL() {}
 
